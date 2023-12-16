@@ -1,0 +1,9 @@
+.div-full-screen {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.div-contains-rest-of-screen {
+  flex-grow: 1;
+}
