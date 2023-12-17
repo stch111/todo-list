@@ -1,12 +1,18 @@
 import React from 'react';
+import { TodoList } from '../redux/todoSlice';
+import { useAppSelector } from '../redux/hooks';
+import { selectTodoLists } from '../redux/todoSlice';
 
 function Sidebar() {
+  const todos = useAppSelector(selectTodoLists);
   return (
     <aside className="menu container is-primary">
       <ul className="menu-list">
-        <a>Item 1</a>
-        <a>Item 2</a>
-        <a>Item 3</a>
+        {todos.map((list) => (
+          <li key={list.id}>
+            <a>{list.name}</a>
+          </li>
+        ))}
       </ul>
     </aside>
   );

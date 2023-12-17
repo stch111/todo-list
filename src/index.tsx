@@ -14,6 +14,8 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
+const lists = store.getState;
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>

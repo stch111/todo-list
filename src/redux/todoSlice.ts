@@ -14,7 +14,39 @@ export interface TodoList {
   todos: Todo[];
 }
 
-const initialState: TodoList[] = [];
+const initialState: TodoList[] = [
+  {
+    id: '1',
+    name: 'List 1',
+    todos: [
+      {
+        id: 'a',
+        text: 'Take out the garbage',
+        completed: false,
+      },
+      {
+        id: 'b',
+        text: 'Oil change',
+        completed: true,
+      },
+      {
+        id: 'c',
+        text: 'Wash dishes',
+        completed: true,
+      },
+    ],
+  },
+  {
+    id: '2',
+    name: 'List 2',
+    todos: [],
+  },
+  {
+    id: '3',
+    name: 'List 3',
+    todos: [],
+  },
+];
 
 export const todoSlice = createSlice({
   name: 'todos',
@@ -86,5 +118,5 @@ export const {
   updateTodo,
 } = todoSlice.actions;
 
-export const selectCount = (state: RootState) => state;
+export const selectTodoLists = (state: RootState) => state.todos;
 export default todoSlice.reducer;
