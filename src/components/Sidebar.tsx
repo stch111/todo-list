@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { TodoList } from '../redux/todoSlice';
 import { useAppSelector } from '../redux/hooks';
 import { selectTodoLists } from '../redux/todoSlice';
@@ -10,7 +11,7 @@ function Sidebar() {
       <ul className="menu-list">
         {todos.map((list) => (
           <li key={list.id}>
-            <a>{list.name}</a>
+            <Link to={`/todo-list/${list.id}`}>{list.name}</Link>
           </li>
         ))}
       </ul>

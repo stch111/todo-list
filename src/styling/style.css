@@ -7,3 +7,8 @@
 .div-contains-rest-of-screen {
   flex-grow: 1;
 }
+
+.div-todos-section {
+  display: flex;
+  flex-direction: column;
+}
