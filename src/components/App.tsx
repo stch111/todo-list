@@ -14,7 +14,7 @@ function App() {
           <Navbar />
         </div>
         <div className="div-contains-rest-of-screen columns">
-          <div className="column is-2 section">
+          <div className="div-contains-sidebar column is-2 section">
             <Sidebar />
           </div>
           <div className="div-todos-section section container column is-10">

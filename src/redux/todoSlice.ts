@@ -95,7 +95,7 @@ export const todoSlice = createSlice({
       // Check that Todo List exists
       if (listToUpdateTodo !== undefined) {
         const todoToUpdate = listToUpdateTodo.todos.find(
-          (t) => (t.id = todo.id)
+          (t) => t.id === todo.id
         );
         // Check that Todo exists
         if (todoToUpdate !== undefined) {

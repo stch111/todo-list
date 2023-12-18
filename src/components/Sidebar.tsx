@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { TodoList } from '../redux/todoSlice';
 import { useAppSelector } from '../redux/hooks';
 import { selectTodoLists } from '../redux/todoSlice';
 

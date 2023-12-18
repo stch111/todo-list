@@ -1,4 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import { TodoList, addTodo } from '../redux/todoSlice';
+import { useAppDispatch } from '../redux/hooks';
+import { Dispatch, ThunkDispatch, UnknownAction } from '@reduxjs/toolkit';
 
 const formStyle = {
   display: 'flex',
@@ -7,11 +12,59 @@ const formStyle = {
   gap: '10px',
 };
 
+const createTodo = (
+  listId: string,
+  todoText: string,
+  dispatch: ThunkDispatch<
+    {
+      todos: TodoList[];
+    },
+    undefined,
+    UnknownAction
+  > &
+    Dispatch<UnknownAction>
+) => {
+  dispatch(
+    addTodo({
+      listId: listId,
+      todo: {
+        id: uuidv4(),
+        text: todoText,
+        completed: false,
+      },
+    })
+  );
+};
+
+const handleTextChange = (
+  text: string,
+  setState: React.Dispatch<React.SetStateAction<string>>
+) => {
+  setState(text);
+};
+
 function NewTodoForm() {
-  return (
+  const dispatch = useAppDispatch();
+  const [todoText, setTodoText] = useState('');
+  const { listId } = useParams();
+  return !listId ? null : (
     <form className="box" style={formStyle}>
-      <input type="text" className="input" placeholder="Add a new To Do" />
-      <button className="button" type="button">
+      <input
+        type="text"
+        className="input"
+        placeholder="Add a new To-Do"
+        value={todoText}
+        onChange={(e) => handleTextChange(e.target.value, setTodoText)}
+      />
+      <button
+        className="button is-primary"
+        type="submit"
+        onClick={(e) => {
+          e.preventDefault();
+          setTodoText('');
+          createTodo(listId, todoText, dispatch);
+        }}
+      >
         Add
       </button>
     </form>
