@@ -1,12 +1,23 @@
-import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import NewTodoForm from './NewTodoForm';
 import Todos from './Todos';
+import { useEffect } from 'react';
+import { getAll } from '../db/db';
+import { populate } from '../redux/todoSlice';
+import { useAppDispatch } from '../redux/hooks';
 
 function App() {
+  const dispatch = useAppDispatch();
+  // On app start, retrieve data from db and refresh state
+  useEffect(() => {
+    (async () => {
+      const data = await getAll();
+      dispatch(populate(data));
+    })();
+  }, [dispatch]);
   return (
     <BrowserRouter>
       <div className="div-full-screen">

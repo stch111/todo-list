@@ -1,122 +1,54 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
+import { Todo, TodoList } from '../db/interfaces';
+import { db } from '../db/db';
 
-export interface Todo {
-  id: string; //Guid
-  text: string;
-  completed: boolean;
-}
+// const initialState: TodoList[] = [
+//   {
+//     id: 1,
+//     name: 'List 1',
+//     todos: [
+//       {
+//         id: 1,
+//         text: 'Take out the garbage',
+//         completed: false,
+//       },
+//       {
+//         id: 2,
+//         text: 'Oil change',
+//         completed: true,
+//       },
+//       {
+//         id: 3,
+//         text: 'Wash dishes',
+//         completed: true,
+//       },
+//     ],
+//   },
+//   {
+//     id: 2,
+//     name: 'List 2',
+//     todos: [],
+//   },
+//   {
+//     id: 3,
+//     name: 'List 3',
+//     todos: [],
+//   },
+// ];
 
-export interface TodoList {
-  id: string; //Guid
-  name: string;
-  todos: Todo[];
-}
-
-const initialState: TodoList[] = [
-  {
-    id: '1',
-    name: 'List 1',
-    todos: [
-      {
-        id: 'a',
-        text: 'Take out the garbage',
-        completed: false,
-      },
-      {
-        id: 'b',
-        text: 'Oil change',
-        completed: true,
-      },
-      {
-        id: 'c',
-        text: 'Wash dishes',
-        completed: true,
-      },
-    ],
-  },
-  {
-    id: '2',
-    name: 'List 2',
-    todos: [],
-  },
-  {
-    id: '3',
-    name: 'List 3',
-    todos: [],
-  },
-];
+const initialState: TodoList[] = [];
 
 export const todoSlice = createSlice({
   name: 'todos',
   initialState,
   reducers: {
     populate: (_state, action: PayloadAction<TodoList[]>) => action.payload,
-    addList: (state, action: PayloadAction<TodoList>) =>
-      state.concat(action.payload),
-    deleteList: (state, action: PayloadAction<string>) =>
-      state.filter((list) => list.id !== action.payload),
-    renameList: (
-      state,
-      action: PayloadAction<{ id: string; name: string }>
-    ) => {
-      const { id, name } = action.payload;
-      const listToRename = state.find((list) => list.id === id);
-      if (listToRename !== undefined) {
-        listToRename.name = name;
-      }
-    },
-    addTodo: (state, action: PayloadAction<{ listId: string; todo: Todo }>) => {
-      const { listId, todo } = action.payload;
-      const listToAddTo = state.find((list) => list.id === listId);
-      if (listToAddTo !== undefined) {
-        listToAddTo.todos = listToAddTo.todos.concat(todo);
-      }
-    },
-    deleteTodo: (
-      state,
-      action: PayloadAction<{ listId: string; todoId: string }>
-    ) => {
-      const { listId, todoId } = action.payload;
-      const listToDeleteFrom = state.find((list) => list.id === listId);
-      if (listToDeleteFrom !== undefined) {
-        listToDeleteFrom.todos = listToDeleteFrom.todos.filter(
-          (todo) => todo.id !== todoId
-        );
-      }
-    },
-    updateTodo: (
-      state,
-      action: PayloadAction<{ listId: string; todo: Todo }>
-    ) => {
-      const { listId, todo } = action.payload;
-      const listToUpdateTodo = state.find((list) => list.id === listId);
-      // Check that Todo List exists
-      if (listToUpdateTodo !== undefined) {
-        const todoToUpdate = listToUpdateTodo.todos.find(
-          (t) => t.id === todo.id
-        );
-        // Check that Todo exists
-        if (todoToUpdate !== undefined) {
-          // Update
-          todoToUpdate.text = todo.text;
-          todoToUpdate.completed = todo.completed;
-        }
-      }
-    },
   },
 });
 
-export const {
-  populate,
-  addList,
-  deleteList,
-  renameList,
-  addTodo,
-  deleteTodo,
-  updateTodo,
-} = todoSlice.actions;
+export const { populate } = todoSlice.actions;
 
 export const selectTodoLists = (state: RootState) => state.todos;
 export default todoSlice.reducer;
