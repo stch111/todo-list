@@ -32,18 +32,22 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: (
-          <div>
-            Hello world! <br />
-            Please select a to-do list on the left or create a new one.
+          <div className="box">
+            <h1 className="title">Hello world!</h1> <br />
+            <h2 className="subtitle">
+              Please select a to-do list on the left or create a new one.
+            </h2>
           </div>
         ),
       },
       {
         path: '/todo-list/',
         element: (
-          <div>
-            Hello world! <br />
-            Please select a to-do list on the left or create a new one.
+          <div className="box">
+            <h1 className="title">Hello world!</h1> <br />
+            <h2 className="subtitle">
+              Please select a to-do list on the left or create a new one.
+            </h2>
           </div>
         ),
       },

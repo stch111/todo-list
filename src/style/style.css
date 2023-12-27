@@ -22,7 +22,7 @@ body,
   background-color: hsl(0, 0%, 92%);
 }
 
-.icon-ellipsis:hover {
+.clickable-icon:hover {
   cursor: pointer;
   color: hsl(0, 0%, 71%);
 }

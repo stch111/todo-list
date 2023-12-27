@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
-import { Todo, TodoList } from '../db/interfaces';
-import { db } from '../db/db';
+import { TodoList } from '../db/interfaces';
 
 // const initialState: TodoList[] = [
 //   {

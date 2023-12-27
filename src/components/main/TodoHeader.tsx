@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEllipsisVertical,
   faCancel,
+  faDeleteLeft,
+  faX,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { useAppSelector } from '../../redux/hooks';
@@ -19,11 +21,9 @@ function TodoHeader() {
   const [editing, setEditing] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
   const listId = useLoaderData() as number;
   const todoLists = useAppSelector(selectTodoLists);
-  // This is used to get the x-y coordinates of the ellipsis icon
-  // When clicked, it will pop up a menu where the icon is
-  const elementRef = useRef<HTMLSpanElement>(null);
 
   const list = todoLists.find((l) => l.id === listId);
   const [listName, setListName] = useState(!list ? '' : list.name);
@@ -62,7 +62,6 @@ function TodoHeader() {
           <input
             type="text"
             className="input"
-            defaultValue={list?.name}
             value={listName}
             onChange={(e) => {
               setListName(e.target.value);
@@ -70,7 +69,7 @@ function TodoHeader() {
           />
         </form>
         <span
-          className="icon icon-ellipsis level-item mx-2"
+          className="icon clickable-icon level-item mx-2"
           onClick={() => {
             // Reset input text
             setListName(list!.name);
@@ -88,9 +87,12 @@ function TodoHeader() {
       <div className="level box todo-header">
         <h1 className="title">{list?.name}</h1>
         <span
-          className="icon icon-ellipsis"
-          ref={elementRef}
-          onClick={() => {
+          className="icon clickable-icon"
+          onClick={(e) => {
+            setCoordinates({
+              x: e.currentTarget.offsetLeft,
+              y: e.currentTarget.offsetTop,
+            });
             setShowOptions(true);
           }}
         >
@@ -107,16 +109,16 @@ function TodoHeader() {
                 setShowOptions(false);
               }}
               coordinates={
-                elementRef.current
+                coordinates
                   ? {
                       x:
-                        elementRef.current.offsetLeft < window.innerWidth / 2
-                          ? elementRef.current.offsetLeft
-                          : elementRef.current.offsetLeft - 120,
+                        coordinates.x < window.innerWidth / 2
+                          ? coordinates.x
+                          : coordinates.x - 120,
                       y:
-                        elementRef.current.offsetTop < window.innerHeight / 2
-                          ? elementRef.current.offsetTop
-                          : elementRef.current.offsetTop - 112,
+                        coordinates.y < window.innerHeight / 2
+                          ? coordinates.y
+                          : coordinates.y - 112,
                     }
                   : { x: 0, y: 0 }
               }
@@ -127,7 +129,22 @@ function TodoHeader() {
           <div className="modal-background"></div>
           <div className="modal-content has-background-light">
             <div className="box">
-              <h2 className="title">Confirm Deletion</h2>
+              <div className="level">
+                <div className="level-left">
+                  <h2 className="title">Confirm Deletion</h2>
+                </div>
+                <div className="level-right">
+                  <span className="icon clickable-icon">
+                    <FontAwesomeIcon
+                      icon={faX}
+                      onClick={() => {
+                        setShowDeleteModal(false);
+                      }}
+                    />
+                  </span>
+                </div>
+              </div>
+
               <p>Are you sure you want to delete to-do list "{list!.name}"?</p>
               <br />
               <div className="is-flex is-justify-content-flex-end">

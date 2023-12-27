@@ -6,7 +6,7 @@ function Navbar() {
     <nav className="navbar is-dark">
       <div className="navbar-brand">
         <Link className="navbar-item" to={'/'}>
-          To-Do List
+          <h1 className="title has-text-light">To-Do List</h1>
         </Link>
       </div>
     </nav>

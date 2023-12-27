@@ -43,7 +43,15 @@ function Sidebar() {
         ))}
       </ul>
       <hr className="solid" style={sidebarDividerStyle} />
-      <form style={newTodoListInputStyle}>
+      <form
+        style={newTodoListInputStyle}
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (newTodoListName.trim() !== '') {
+            handleNewTodoList(newTodoListName);
+          }
+        }}
+      >
         <input
           type="text"
           className="input"
@@ -52,19 +60,8 @@ function Sidebar() {
           onChange={(e) => {
             setNewTodoListName(e.target.value);
           }}
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleNewTodoList(newTodoListName);
-          }}
         />
-        <button
-          type="submit"
-          className="button"
-          onClick={(e) => {
-            e.preventDefault();
-            handleNewTodoList(newTodoListName);
-          }}
-        >
+        <button type="submit" className="button">
           +
         </button>
       </form>
