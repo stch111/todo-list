@@ -48,7 +48,7 @@ function Sidebar() {
             handleNewTodoList(newTodoListName);
           }
         }}
-        className="is-flex is-flex-direction-row is-align-items-center"
+        className="is-flex is-flex-direction-column is-align-items-center"
       >
         <input
           type="text"
@@ -59,10 +59,8 @@ function Sidebar() {
             setNewTodoListName(e.target.value);
           }}
         />
-        <button type="submit" className="button">
-          <span className="icon">
-            <FontAwesomeIcon icon={faAdd} />
-          </span>
+        <button type="submit" className="button m-4">
+          Add
         </button>
       </form>
     </aside>
