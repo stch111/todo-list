@@ -19,7 +19,7 @@ const router = createBrowserRouter([
           <Navbar />
         </div>
         <div className="div-contains-rest-of-screen columns m-0">
-          <div className="div-contains-sidebar column is-2 section">
+          <div className="div-contains-sidebar column is-2 p-4">
             <Sidebar />
           </div>
           <div className="div-todos-section section container column is-10">

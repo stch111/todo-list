@@ -3,15 +3,8 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { populate, selectTodoLists } from '../redux/todoSlice';
 import { db, getAll } from '../db/db';
-
-const sidebarDividerStyle = {
-  borderTop: '1px solid #bbb',
-};
-
-const newTodoListInputStyle = {
-  display: 'flex',
-  flexDirection: 'row' as 'row',
-};
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAdd } from '@fortawesome/free-solid-svg-icons';
 
 function Sidebar() {
   const [newTodoListName, setNewTodoListName] = useState('');
@@ -42,15 +35,20 @@ function Sidebar() {
           </li>
         ))}
       </ul>
-      <hr className="solid" style={sidebarDividerStyle} />
+      <hr
+        className="solid"
+        style={{
+          borderTop: '1px solid #bbb',
+        }}
+      />
       <form
-        style={newTodoListInputStyle}
         onSubmit={(e) => {
           e.preventDefault();
           if (newTodoListName.trim() !== '') {
             handleNewTodoList(newTodoListName);
           }
         }}
+        className="is-flex is-flex-direction-row is-align-items-center"
       >
         <input
           type="text"
@@ -62,7 +60,9 @@ function Sidebar() {
           }}
         />
         <button type="submit" className="button">
-          +
+          <span className="icon">
+            <FontAwesomeIcon icon={faAdd} />
+          </span>
         </button>
       </form>
     </aside>

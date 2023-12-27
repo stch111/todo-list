@@ -11,17 +11,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import OptionsMenu from '../OptionsMenu';
 
-const todoListStyle = {
-  display: 'flex',
-  flexDirection: 'column' as 'column',
-};
-
-const todoStyle = {
-  display: 'flex',
-  flexDirection: 'row' as 'row',
-  gap: '20px',
-};
-
 function Todos() {
   const dispatch = useDispatch();
   const params = useParams();
@@ -76,17 +65,22 @@ function Todos() {
 
   return (
     <>
-      <ul className="box" style={todoListStyle}>
+      <ul className="box is-flex is-flex-direction-column">
         {/* Make sure todo list exists before rendering */}
         {todoList
           ? todoList.todos.map((todo) => (
-              <div className="block level" style={todoStyle} key={todo.id}>
+              <div
+                className="block level is-flex is-flex-direction-row"
+                key={todo.id}
+                style={{ gap: '20px' }}
+              >
                 <input
                   type="checkbox"
                   defaultChecked={todo.completed}
                   onChange={(e) => {
                     handleCheckboxClick(e.target.checked, todo.id);
                   }}
+                  className="column"
                   style={{ flexGrow: 0 }}
                 />
                 {/* Show an input when editing. Text otherwise */}
