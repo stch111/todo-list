@@ -1,17 +1,28 @@
+body,
+#root,
 .div-full-screen {
   height: 100vh;
   display: flex;
   flex-direction: column;
+}
+.div-contains-navbar {
+  flex-grow: 0;
 }
 
 .div-contains-rest-of-screen {
   flex-grow: 1;
 }
 
-.div-todos-section {
+/* .div-todos-section {
   display: flex;
   flex-direction: column;
-}
+} */
+
 .div-contains-sidebar {
   background-color: hsl(0, 0%, 92%);
+}
+
+.icon-ellipsis:hover {
+  cursor: pointer;
+  color: hsl(0, 0%, 71%);
 }

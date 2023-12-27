@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useAppDispatch } from '../redux/hooks';
-import { Dispatch, ThunkDispatch, UnknownAction } from '@reduxjs/toolkit';
-import { TodoList } from '../db/interfaces';
-import { db, getAll } from '../db/db';
-import { populate } from '../redux/todoSlice';
+import { useLoaderData } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { db, getAll } from '../../db/db';
+import { populate, selectTodoLists } from '../../redux/todoSlice';
 
-const formStyle = {
-  display: 'flex',
-  // TS does not like this as a string, which may not fall under the FlexDirection union
-  flexDirection: 'row' as 'row',
-  gap: '10px',
-};
+import '../../style/NewTodoForm.css';
 
 const handleTextChange = (
   text: string,
@@ -23,12 +16,15 @@ const handleTextChange = (
 function NewTodoForm() {
   const dispatch = useAppDispatch();
   const [todoText, setTodoText] = useState('');
-  const { listId } = useParams();
+  const listId = useLoaderData() as number;
+  const listExists = useAppSelector(selectTodoLists).find(
+    (list) => list.id === listId
+  );
 
   const createTodo = async () => {
     setTodoText('');
     db.todos.add({
-      todoListId: parseInt(listId!),
+      todoListId: listId!,
       text: todoText,
       completed: false,
     });
@@ -36,8 +32,8 @@ function NewTodoForm() {
     dispatch(populate(data));
   };
 
-  return !listId ? null : (
-    <form className="box" style={formStyle}>
+  return isNaN(listId) || !listExists ? null : (
+    <form className="box new-todo-form">
       <input
         type="text"
         className="input"

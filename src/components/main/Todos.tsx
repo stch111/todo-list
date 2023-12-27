@@ -1,10 +1,11 @@
 import React from 'react';
-import { selectTodoLists } from '../redux/todoSlice';
+import { populate, selectTodoLists } from '../../redux/todoSlice';
 import { useParams } from 'react-router-dom';
-import { useAppSelector } from '../redux/hooks';
+import { useAppSelector } from '../../redux/hooks';
 import { useDispatch } from 'react-redux';
-import { Dispatch, ThunkDispatch, UnknownAction } from '@reduxjs/toolkit';
-import { Todo, TodoList } from '../db/interfaces';
+import { db, getAll } from '../../db/db';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 
 const todoListStyle = {
   display: 'flex',
@@ -38,6 +39,12 @@ function Todos() {
     return <h2>No To-Do List could be found for the given ID.</h2>;
   }
 
+  const handleCheckboxClick = async (checked: boolean, id: number) => {
+    await db.todos.update(id, { completed: checked });
+    const data = await getAll();
+    dispatch(populate(data));
+  };
+
   return (
     <ul className="box" style={todoListStyle}>
       {todoList
@@ -46,9 +53,15 @@ function Todos() {
               <input
                 type="checkbox"
                 defaultChecked={todo.completed}
-                onClick={() => {}}
+                onChange={(e) => {
+                  handleCheckboxClick(e.target.checked, todo.id);
+                }}
+                style={{ flexGrow: 0 }}
               />
-              <div>{todo.text}</div>
+              <div style={{ flexGrow: 1 }}>{todo.text}</div>
+              <span className="icon icon-ellipsis">
+                <FontAwesomeIcon icon={faEllipsisVertical} />
+              </span>
             </div>
           ))
         : null}

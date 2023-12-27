@@ -1,0 +1,6 @@
+.new-todo-form {
+  display: flex;
+  /* TS does not like this as a string, which may not fall under the FlexDirection union */
+  flex-direction: row;
+  gap: 10px;
+}

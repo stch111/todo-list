@@ -13,24 +13,26 @@ const newTodoListInputStyle = {
   flexDirection: 'row' as 'row',
 };
 
-const handleNewTodoList = async (newTodoListName: string, dispatch: any) => {
-  try {
-    await db.todoLists.add({ name: newTodoListName });
-    const data = await getAll();
-    dispatch(populate(data));
-  } catch (e) {
-    if (typeof e === 'string') {
-      console.log(e.toUpperCase());
-    } else if (e instanceof Error) {
-      console.log(e.message);
-    }
-  }
-};
-
 function Sidebar() {
   const [newTodoListName, setNewTodoListName] = useState('');
   const todos = useAppSelector(selectTodoLists);
   const dispatch = useAppDispatch();
+
+  const handleNewTodoList = async (newTodoListName: string) => {
+    try {
+      await db.todoLists.add({ name: newTodoListName });
+      const data = await getAll();
+      dispatch(populate(data));
+      setNewTodoListName('');
+    } catch (e) {
+      if (typeof e === 'string') {
+        console.log(e.toUpperCase());
+      } else if (e instanceof Error) {
+        console.log(e.message);
+      }
+    }
+  };
+
   return (
     <aside className="menu container is-primary">
       <ul className="menu-list">
@@ -52,7 +54,7 @@ function Sidebar() {
           }}
           onSubmit={(e) => {
             e.preventDefault();
-            handleNewTodoList(newTodoListName, dispatch);
+            handleNewTodoList(newTodoListName);
           }}
         />
         <button
@@ -60,7 +62,7 @@ function Sidebar() {
           className="button"
           onClick={(e) => {
             e.preventDefault();
-            handleNewTodoList(newTodoListName, dispatch);
+            handleNewTodoList(newTodoListName);
           }}
         >
           +
